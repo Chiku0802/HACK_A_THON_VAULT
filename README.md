@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🛡️ Vault: Fault-Tolerant Distributed Object Storage System
 
 **Vault** is an industrial-grade, fault-tolerant distributed object storage system engineered to reliably store, replicate, retrieve, and automatically repair large volumes of data across unreliable, independently failing storage nodes and degraded networks.
@@ -244,3 +245,7 @@ Benchmark results on local node cluster:
 ## 📄 License
 
 Apache License 2.0. Built with pride for high-scale, resilient distributed storage.
+=======
+# Vault_Prompta_thon
+Vault: Build a fault-tolerant distributed object storage system capable of storing, replicating, retrieving, and repairing large volumes of data across unreliable and independently failing storage nodes. 
+>>>>>>> a10d09c14b75664c19d1c060a6694515b542842d
