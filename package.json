@@ -1,0 +1,34 @@
+{
+  "name": "vault-storage",
+  "version": "1.0.0",
+  "description": "Fault-tolerant distributed object storage system with erasure coding, anti-entropy, read repair, and self-healing",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "vault": "./src/cli/vault-cli.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "node --test tests/*.js",
+    "test:erasure": "node tests/test-erasure.js",
+    "test:concurrency": "node tests/test-concurrency.js",
+    "test:failures": "node tests/test-failures.js",
+    "test:bitrot": "node tests/test-bitrot-repair.js",
+    "test:partitions": "node tests/test-partitions.js",
+    "test:anti-entropy": "node tests/test-anti-entropy.js",
+    "test:large-objects": "node tests/test-large-objects.js",
+    "benchmark": "node benchmark.js"
+  },
+  "keywords": [
+    "distributed-systems",
+    "object-storage",
+    "fault-tolerance",
+    "erasure-coding",
+    "read-repair",
+    "merkle-tree",
+    "anti-entropy",
+    "replication"
+  ],
+  "author": "Antigravity",
+  "license": "Apache-2.0"
+}

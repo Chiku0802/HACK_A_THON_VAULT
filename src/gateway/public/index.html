@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vault - Distributed Fault-Tolerant Object Storage</title>
+  <link rel="stylesheet" href="/dashboard/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-area">
+        <div class="logo-icon">🛡️</div>
+        <div>
+          <h1>VAULT</h1>
+          <p class="subtitle">Distributed Fault-Tolerant Object Storage with Erasure Coding & Self-Healing</p>
+        </div>
+      </div>
+      <div class="cluster-quick-stats">
+        <div class="stat-pill"><span class="stat-label">Nodes:</span> <strong id="stat-nodes">0/0</strong></div>
+        <div class="stat-pill"><span class="stat-label">Objects:</span> <strong id="stat-objects">0</strong></div>
+        <div class="stat-pill"><span class="stat-label">Repairs:</span> <strong id="stat-repairs">0</strong></div>
+        <div class="stat-pill"><span class="stat-label">Status:</span> <span id="stat-cluster-badge" class="badge badge-alive">ONLINE</span></div>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="main-layout">
+      <!-- Left Column: Cluster Topology & Racks -->
+      <section class="panel topology-panel">
+        <div class="panel-header">
+          <h2>🌐 Rack & Node Topology</h2>
+          <div class="panel-actions">
+            <button class="btn btn-sm btn-outline" id="btn-refresh">🔄 Refresh</button>
+          </div>
+        </div>
+
+        <div id="racks-container" class="racks-container">
+          <!-- Dynamically populated racks and nodes -->
+        </div>
+
+        <!-- Chaos Engineering Controls -->
+        <div class="chaos-box">
+          <div class="chaos-title">⚡ Chaos Engineering Studio</div>
+          <p class="chaos-desc">Inject hardware failures, network partitions, and bitrot into the live cluster to observe self-healing and read repair in real time.</p>
+          <div class="chaos-buttons">
+            <button class="btn btn-warning" id="btn-corrupt-random">🧬 Inject Bitrot</button>
+            <button class="btn btn-danger" id="btn-partition-half">✂️ Split Network (Partition)</button>
+            <button class="btn btn-success" id="btn-heal-network">💚 Heal All Partitions</button>
+            <button class="btn btn-secondary" id="btn-trigger-scrub">🔍 Run Disk Scrub</button>
+            <button class="btn btn-primary" id="btn-trigger-heal">🩹 Force Healing Cycle</button>
+            <button class="btn btn-info" id="btn-trigger-ae">🔄 Merkle Anti-Entropy</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Storage Explorer & Telemetry -->
+      <section class="panel storage-panel">
+        <!-- Upload Box -->
+        <div class="upload-box">
+          <h3>📤 Store New Object</h3>
+          <form id="upload-form" class="upload-form">
+            <div class="form-row">
+              <input type="text" id="upload-bucket" placeholder="Bucket (e.g. default)" value="default" required class="input">
+              <input type="text" id="upload-key" placeholder="Object Key (e.g. photos/backup.bin)" required class="input">
+            </div>
+            <div class="form-row">
+              <select id="upload-policy" class="input">
+                <option value="REPLICATION">Policy: 3x Replication (Quorum W=2, R=2)</option>
+                <option value="ERASURE">Policy: Reed-Solomon 4+2 Erasure Coding (1.5x Storage)</option>
+              </select>
+              <input type="file" id="upload-file" required class="input-file">
+              <button type="submit" class="btn btn-primary" id="btn-upload">Upload Object</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Stored Objects Table -->
+        <div class="objects-container">
+          <div class="panel-header">
+            <h3>📦 Stored Objects</h3>
+            <span class="text-muted" id="objects-count">0 objects</span>
+          </div>
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Bucket / Key</th>
+                  <th>Size</th>
+                  <th>Durability Policy</th>
+                  <th>ETag Checksum</th>
+                  <th>Chunks / Health</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="objects-tbody">
+                <tr><td colspan="6" class="text-center">No objects stored yet.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Live Event Stream & Logs -->
+        <div class="events-container">
+          <div class="panel-header">
+            <h3>📡 Cluster Event Log & Self-Healing Telemetry</h3>
+            <button class="btn btn-xs btn-outline" id="btn-clear-logs">Clear</button>
+          </div>
+          <div id="events-log" class="events-log">
+            <div class="log-entry log-info"><span class="log-ts">[INIT]</span> Connected to Vault Cluster Event Stream. Ready.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal for Inspecting Chunk Topology -->
+    <div id="chunk-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modal-title">Chunk Placement & Shard Topology</h3>
+          <button class="modal-close" id="btn-close-modal">&times;</button>
+        </div>
+        <div id="modal-body" class="modal-body">
+          <!-- Chunk details -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/dashboard/app.js"></script>
+</body>
+</html>
